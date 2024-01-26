@@ -1,0 +1,10 @@
+/* TailwindCSS */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Custom CSS */
+input:focus {
+    border: 1px solid #3498db; /* Change color as needed */
+    outline: none; /* Remove the default focus outline */
+}

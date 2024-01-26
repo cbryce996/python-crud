@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center h-screen p-5">
+
+    <div class="bg-gray-800 p-7 rounded-md shadow-md w-full sm:w-5/6 max-w-4xl">
+
+        <div class="flex-row center lg:flex">
+            <!-- User profile panel -->
+            <div class="lg:w-1/2 lg:pr-8">
+
+                <!-- User profile picture (placeholder) -->
+                <img src="https://via.placeholder.com/80" alt="User Avatar" class="w-40 h-40 rounded-full mb-4 mx-auto">
+
+                <!-- User information -->
+                <div>
+                    <h2 class="text-2xl font-semibold mb-2 text-center">John Doe</h2>
+                    <hr class="h-px mb-4 bg-gray-200 border-0 dark:bg-gray-700">
+                    <p class="text-gray-300 mb-1 text-center">Location: City, Country</p>
+                    <p class="text-gray-300 mb-1 text-center">Bio: Software Developer</p>
+                    <p class="text-gray-300 mb-1 text-center">Email: john.doe@example.com</p>
+                </div>
+            </div>
+
+            <!-- Repository section -->
+            <div class="lg:w-1/2 lg:pl-8">
+
+                <hr class="h-px mt-4 mb-2 bg-gray-200 border-0 dark:bg-gray-700 lg:hidden">
+                <h3 class="text-lg font-semibold mb-2 text-center">Repositories</h3>
+                <hr class="h-px mb-4 mt-2 bg-gray-200 border-0 dark:bg-gray-700 hidden lg:block">
+
+                <!-- Realistic repository placeholders in vertical flex format -->
+                <div class="space-y-4">
+                    <button class="bg-gray-700 hover:bg-gray-600 p-4 rounded-md w-full text-left">
+                        <h4 class="text-xl font-semibold mb-2"><a href="https://github.com/johndoe/repo1" target="_blank">johndoe/repo1</a></h4>
+                        <p class="text-gray-300">A sample repository description goes here.</p>
+                    </button>
+                    <button class="bg-gray-700 hover:bg-gray-600 p-4 rounded-md w-full text-left">
+                        <h4 class="text-xl font-semibold mb-2"><a href="https://github.com/johndoe/repo2" target="_blank">johndoe/repo2</a></h4>
+                        <p class="text-gray-300">Another repository with a brief description.</p>
+                    </button>
+                    <button class="bg-gray-700 hover:bg-gray-600 p-4 rounded-md w-full text-left">
+                        <h4 class="text-xl font-semibold mb-2"><a href="https://github.com/johndoe/repo3" target="_blank">johndoe/repo3</a></h4>
+                        <p class="text-gray-300">Yet another repository description.</p>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
+
+        <!-- Edit profile button -->
+        <div class="text-center" role="group">
+            <button href="{{ url_for('edit_profile') }}" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">
+                Edit
+            </button>
+            <button href="{{ url_for('edit_profile') }}" class="bg-gray-700 text-white py-2 px-4 rounded-md hover:bg-gray-600">
+                Logout
+            </button>
+        </div>
+    </div>
+
+</body>
+</html>

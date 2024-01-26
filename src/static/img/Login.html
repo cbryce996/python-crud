@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="Login_files/output.css">
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center h-screen">
+
+    <div class="bg-gray-800 p-8 rounded-md shadow-md w-96">
+        <h1 class="text-2xl font-semibold mb-4 text-center">Login</h1>
+
+        <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
+        
+        <div class="mb-4 flex items-center justify-center">
+            <a href="http://127.0.0.1:5000/login" class="flex items-center justify-center bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700 focus:outline-none focus:ring focus:border-blue-300">
+                <img src="Login_files/github.svg" alt="GitHub Logo" class="w-6 h-full inline-block mr-2">
+                Login with GitHub
+            </a>
+        </div>
+
+        <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
+
+        <form action="/login" method="POST">
+            <!-- Username input -->
+            <div class="mb-4">
+                <label for="username" class="block text-sm font-medium text-gray-300">Username</label>
+                <input type="text" id="username" name="username" class="mt-1 p-2 w-full border rounded-md bg-gray-700 text-white">
+            </div>
+
+            <!-- Password input -->
+            <div class="mb-6">
+                <label for="password" class="block text-sm font-medium text-gray-300">Password</label>
+                <input type="password" id="password" name="password" class="mt-1 p-2 w-full border rounded-md bg-gray-700 text-white">
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 w-full">Login</button>
+        </form>
+    </div>
+
+
+</body></html>
