@@ -10,9 +10,9 @@ def login_page():
 def profile_page():
     return render_template('profile.html')
 
-@app.route('/profile')
-def edit_profile():
-    return render_template('profile.html')
+@app.route('/edit')
+def edit_page():
+    return render_template('edit.html')
 
 
 @app.route('/login', methods=['POST'])
