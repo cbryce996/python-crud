@@ -20,31 +20,45 @@
             </a>
         </div>
 
-        <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
+        <hr class="h-px mt-4 mb-6 bg-gray-200 border-0 dark:bg-gray-700">
 
-        <form action="{{ url_for('user_routes.profile_page') }}" method="POST">
+        <form class="relative" action="{{ url_for('auth_routes.login') }}" method="POST" novalidate>
             {{ form.csrf_token }}
+
+            {% if errors.form %}
+                <div class="absolute top-[-20px] mx-auto left-0 w-full text-center">
+                    <span class="text-sm text-red-500 font-medium" role="alert">{{ errors.form }}</span>
+                </div>
+            {% endif %}
+            
             <!-- Username input -->
-            <div class="mb-4">
-                <label for="username" class="block text-sm font-medium text-gray-300">Username</label>
+            <div class="mb-6 flex flex-col relative">
+                <label for="password" class="block text-sm font-medium text-gray-300">Username</label>
                 {{ form.username(class="mt-1 p-2 w-full border rounded-md bg-gray-700 text-white") }}
-                {% for error in form.username.errors %}
-                    <span class="text-danger">{{ error }}</span>
-                {% endfor %}
+                
+                {% if errors.inputs.username %}
+                    <div class="absolute bottom-[-20px]">
+                        <span class="text-xs text-red-500 font-medium" role="alert">{{ errors.inputs.username }}</span>
+                    </div>
+                {% endif %}
             </div>
 
             <!-- Password input -->
-            <div class="mb-6">
+            <div class="mb-6 flex flex-col relative">
                 <label for="password" class="block text-sm font-medium text-gray-300">Password</label>
                 {{ form.password(class="mt-1 p-2 w-full border rounded-md bg-gray-700 text-white") }}
-                {% for error in form.password.errors %}
-                    <span class="text-danger">{{ error }}</span>
-                {% endfor %}
+                
+                {% if errors.inputs.password %}
+                    <div class="absolute bottom-[-20px]">
+                        <span class="text-xs text-red-500 font-medium" role="alert">{{ errors.inputs.password }}</span>
+                    </div>
+                {% endif %}
             </div>
-
+        
             <!-- Submit button -->
-            <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-500 w-full">Login</button>
-        </form>
+            <button type="submit" class="bg-blue-600 text-white mt-2 py-2 px-4 rounded-md hover:bg-blue-500 w-full">Login</button>
+        </form>        
+        
     </div>
 
 </body>

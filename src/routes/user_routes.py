@@ -1,26 +1,20 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
-from forms import LoginForm
+# user_routes.py
+from flask import Blueprint, render_template
 from database.session import SessionLocal
 from models.repository import UserRepository
 
 user_routes = Blueprint('user_routes', __name__)
+
+# Instantiate the UserRepository with the database session
 user_repository = UserRepository(SessionLocal)
 
-@user_routes.route('/profile', methods=['GET', 'POST'])
+@user_routes.route('/profile')
 def profile_page():
-    form = LoginForm()
+    # Fetch user data from the repository (you can modify this as per your authentication logic)
+    user_data = {"username": "JohnDoe", "full_name": "John Doe", "address": "City, Country", "phone_number": "123456789"}
 
-    if form.validate_on_submit():
-        # Handle form submission
-        username = form.username.data
-        password = form.password.data
+    return render_template('profile.html', user_data=user_data)
 
-        # Your authentication logic goes here
-        # Example: Check credentials using the user repository
-        if user_repository.authenticate_user(username, password):
-            flash('Login successful!', 'success')
-            return redirect(url_for('user_routes.profile_page'))
-
-        flash('Invalid username or password', 'error')
-
-    return render_template('profile.html', form=form)
+@user_routes.route('/edit')
+def edit_page():
+    return render_template('edit.html')
