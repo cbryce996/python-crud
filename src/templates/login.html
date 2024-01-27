@@ -14,7 +14,7 @@
         <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
         
         <div class="mb-4 flex items-center justify-center">
-            <a href="{{ url_for('profile_page') }}" class="flex items-center justify-center bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-500">
+            <a href="{{ url_for('user_routes.profile_page') }}" class="flex items-center justify-center bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-500">
                 <img src="{{ url_for('static', filename='img/github.svg') }}" alt="GitHub Logo" class="w-6 h-full inline-block mr-2">
                 Login with GitHub
             </a>
@@ -22,17 +22,24 @@
 
         <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
 
-        <form action="{{ url_for('profile_page') }}" method="POST">
+        <form action="{{ url_for('user_routes.profile_page') }}" method="POST">
+            {{ form.csrf_token }}
             <!-- Username input -->
             <div class="mb-4">
                 <label for="username" class="block text-sm font-medium text-gray-300">Username</label>
-                <input type="text" id="username" name="username" class="mt-1 p-2 w-full border rounded-md bg-gray-700 text-white">
+                {{ form.username(class="mt-1 p-2 w-full border rounded-md bg-gray-700 text-white") }}
+                {% for error in form.username.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
             </div>
 
             <!-- Password input -->
             <div class="mb-6">
                 <label for="password" class="block text-sm font-medium text-gray-300">Password</label>
-                <input type="password" id="password" name="password" class="mt-1 p-2 w-full border rounded-md bg-gray-700 text-white">
+                {{ form.password(class="mt-1 p-2 w-full border rounded-md bg-gray-700 text-white") }}
+                {% for error in form.password.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
             </div>
 
             <!-- Submit button -->
