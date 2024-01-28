@@ -14,7 +14,7 @@
         <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
         
         <div class="mb-4 flex items-center justify-center">
-            <a href="{{ url_for('user_routes.profile_page') }}" class="flex items-center justify-center bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-500">
+            <a href="{{ url_for('user_routes.profile') }}" class="flex items-center text-sm justify-center bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-500">
                 <img src="{{ url_for('static', filename='img/github.svg') }}" alt="GitHub Logo" class="w-6 h-full inline-block mr-2">
                 Login with GitHub
             </a>
@@ -26,7 +26,7 @@
             {{ form.csrf_token }}
 
             {% if errors.form %}
-                <div class="absolute top-[-20px] mx-auto left-0 w-full text-center">
+                <div class="absolute top-[-20px] left-0 w-full text-center">
                     <span class="text-sm text-red-500 font-medium" role="alert">{{ errors.form }}</span>
                 </div>
             {% endif %}
