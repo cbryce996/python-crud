@@ -1,6 +1,6 @@
-from flask import Blueprint, redirect, url_for, session, flash, request, render_template, session
+from flask import Blueprint, redirect, url_for, session, flash, request, render_template
 from flask_oauthlib.client import OAuth
-from forms import LoginForm
+from app.forms import LoginForm
 
 auth_routes = Blueprint('auth_routes', __name__)
 
@@ -23,6 +23,9 @@ github = oauth.remote_app(
 def login():
     form = LoginForm()
 
+    if request.method == 'POST':
+        flash('Login unavailable, you can authenticate using GitHub instead!', 'error')
+
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
@@ -33,8 +36,6 @@ def login():
         if authenticated_user:
             session['user_id'] = 1
             return redirect(url_for('user_routes.profile'))
-        else:
-            flash('Login disabled, authenticate using GitHub!', 'error')
 
     # For GET request or failed authentication, render the login form
     return render_template('login.html', form=form)
@@ -47,21 +48,18 @@ def initiate_github_oauth():
 def github_authorized():
     resp = github.authorized_response()
 
+    print(resp)
+
     if resp is None or resp.get('access_token') is None:
-        flash('Access denied: reason={} error={}'.format(
-            request.args.get('error_reason'),
-            request.args.get('error_description')
-        ), 'error')
+        flash('Access denied' 'error')
         return redirect(url_for('auth_routes.login'))
 
     session['github_token'] = (resp['access_token'], '')
 
     github_user_data = github.get('user').data
-
-    print(dict(github_user_data))
-
-    # Fetch repositories
     repositories = github.get('user/repos').data
+
+    print(repositories)
 
     # Extract relevant repository information
     formatted_repositories = [
@@ -77,6 +75,7 @@ def github_authorized():
 
     session['github_user'] = {
         'avatar_url': github_user_data.get('avatar_url'),
+        'html_url': github_user_data.get('html_url'),
         'login': github_user_data.get('login'),
         'name': github_user_data.get('name'),
         'location': github_user_data.get('location'),

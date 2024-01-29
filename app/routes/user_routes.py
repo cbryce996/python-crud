@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, session, redirect, url_for, request, flash
-from forms import EditProfileForm
+from app.forms import EditProfileForm
 import requests
 
 user_routes = Blueprint('user_routes', __name__)
