@@ -10,6 +10,9 @@ def create_app():
     # Set a secret key for CSRF protection
     app.config['SECRET_KEY'] = 'your_secret_key'  # Replace 'your_secret_key' with an actual secret key
 
+    app.template_folder = 'app/templates'
+    app.static_folder = 'app/static'
+
     return app
 
 def register_routes(app):

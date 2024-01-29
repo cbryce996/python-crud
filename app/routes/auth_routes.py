@@ -48,8 +48,6 @@ def initiate_github_oauth():
 def github_authorized():
     resp = github.authorized_response()
 
-    print(resp)
-
     if resp is None or resp.get('access_token') is None:
         flash('Access denied' 'error')
         return redirect(url_for('auth_routes.login'))
@@ -58,8 +56,6 @@ def github_authorized():
 
     github_user_data = github.get('user').data
     repositories = github.get('user/repos').data
-
-    print(repositories)
 
     # Extract relevant repository information
     formatted_repositories = [
