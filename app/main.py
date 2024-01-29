@@ -6,7 +6,6 @@ from flask import Flask, redirect, url_for
 project_root = Path(__file__).resolve().parent
 sys.path.insert(0, str(project_root))
 
-
 from routes.auth_routes import auth_routes
 from routes.user_routes import user_routes
 

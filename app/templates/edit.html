@@ -3,13 +3,13 @@
 {% block title %}Edit Profile{% endblock %}
 
 {% block content %}
-    <div class="bg-gray-800 p-8 rounded-md shadow-md w-full sm:w-5/6 max-w-xl">
+    <div class="bg-gray-800 p-6 rounded-md shadow-md w-full sm:w-5/6 max-w-xl">
 
         <h1 class="text-2xl font-semibold mb-4 text-center">Edit Profile</h1>
 
         <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
 
-        <form action="{{ url_for('user_routes.profile') }}" method="POST">
+        <form action="{{ url_for('user_routes.edit') }}" method="POST" novalidate>
             {{ form.csrf_token }}
         
             {% if form.errors %}
@@ -19,49 +19,37 @@
             {% endif %}
         
             <!-- Name input -->
-            <div class="mb-6">
+            <div class="mb-6 flex flex-col relative">
                 <label for="name" class="block text-sm font-medium text-gray-300">Name</label>
                 {{ form.name(class="mt-1 p-2 w-full border rounded-md bg-gray-700 text-white") }}
                 
-                {% if form.errors.name %}
-                    <div class="text-xs text-red-500 font-medium" role="alert">{{ form.errors.name[0] }}</div>
+                {% if form.errors.get('name') %}
+                    <div class="absolute bottom-[-20px] text-red-500 text-xs">{{ form.errors.get('name')[0] }}</div>
                 {% endif %}
             </div>
         
             <!-- Location input -->
-            <div class="mb-6">
+            <div class="mb-6 flex flex-col relative">
                 <label for="location" class="block text-sm font-medium text-gray-300">Location</label>
                 {{ form.location(class="mt-1 p-2 w-full border rounded-md bg-gray-700 text-white") }}
                 
-                {% if form.errors.location %}
-                    <div class="text-xs text-red-500 font-medium" role="alert">{{ form.errors.location[0] }}</div>
+                {% if form.errors.get('location') %}
+                    <div class="absolute bottom-[-20px] text-red-500 text-xs">{{ form.errors.get('location')[0] }}</div>
                 {% endif %}
             </div>
         
             <!-- Bio input -->
-            <div class="mb-6">
+            <div class="mb-6 flex flex-col relative">
                 <label for="bio" class="block text-sm font-medium text-gray-300">Bio</label>
                 {{ form.bio(class="mt-1 p-2 w-full border rounded-md bg-gray-700 text-white") }}
                 
-                {% if form.errors.bio %}
-                    <div class="text-xs text-red-500 font-medium" role="alert">{{ form.errors.bio[0] }}</div>
+                {% if form.errors.get('bio') %}
+                    <div class="absolute bottom-[-20px] text-red-500 text-xs">{{ form.errors.get('bio')[0] }}</div>
                 {% endif %}
             </div>
-        
-            <!-- Email input -->
-            <div class="mb-6">
-                <label for="email" class="block text-sm font-medium text-gray-300">Email</label>
-                {{ form.email(class="mt-1 p-2 w-full border rounded-md bg-gray-700 text-white") }}
-                
-                {% if form.errors.email %}
-                    <div class="text-xs text-red-500 font-medium" role="alert">{{ form.errors.email[0] }}</div>
-                {% endif %}
-            </div>
-        
-            <!-- Add other fields as needed -->
         
             <!-- Submit button -->
-            <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-500 w-full">Save Changes</button>
+            <button type="submit" class="bg-blue-600 text-white mt-2 py-2 px-4 rounded-md hover:bg-blue-500 w-full">Save Changes</button>
         </form>        
 
         <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">

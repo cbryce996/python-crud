@@ -8,8 +8,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 class EditProfileForm(FlaskForm):
-    name = StringField('Name')
-    location = StringField('Location')
-    bio = TextAreaField('Bio')
-    email = EmailField('Email', validators=[Email()])
+    name = StringField('Name', validators=[DataRequired(), Length(max=50)])
+    location = StringField('Location', validators=[DataRequired(), Length(max=50)])
+    bio = TextAreaField('Bio', validators=[DataRequired(), Length(max=500)])
     submit = SubmitField('Save Changes')

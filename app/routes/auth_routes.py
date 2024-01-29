@@ -16,13 +16,12 @@ github = oauth.remote_app(
     request_token_url=None,
     access_token_method='POST',
     access_token_url='https://github.com/login/oauth/access_token',
-    authorize_url='https://github.com/login/oauth/authorize?scope=user:email'
+    authorize_url='https://github.com/login/oauth/authorize?scope=user'
 )
 
 @auth_routes.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    errors = {'form': None, 'inputs': {'username': None, 'password': None}}
 
     if form.validate_on_submit():
         username = form.username.data
@@ -35,10 +34,10 @@ def login():
             session['user_id'] = 1
             return redirect(url_for('user_routes.profile'))
         else:
-            errors['form'] = "Login Disabled: Log in with Github"
+            flash('Login disabled, authenticate using GitHub!', 'error')
 
     # For GET request or failed authentication, render the login form
-    return render_template('login.html', errors=errors, form=form)
+    return render_template('login.html', form=form)
 
 @auth_routes.route('/oauth/login')
 def initiate_github_oauth():
@@ -59,6 +58,8 @@ def github_authorized():
 
     github_user_data = github.get('user').data
 
+    print(dict(github_user_data))
+
     # Fetch repositories
     repositories = github.get('user/repos').data
 
@@ -74,26 +75,21 @@ def github_authorized():
         for repo in repositories
     ]
 
-    print("GitHub User Data:", github_user_data)
-    print("GitHub Repositories:", formatted_repositories)
-
     session['github_user'] = {
         'avatar_url': github_user_data.get('avatar_url'),
         'login': github_user_data.get('login'),
         'name': github_user_data.get('name'),
         'location': github_user_data.get('location'),
         'bio': github_user_data.get('bio'),
-        'email': github_user_data.get('email'),
         'repositories': formatted_repositories,  # Add formatted repositories to the session
         # Add other relevant fields as needed
     }
 
-    flash('Login successful!')
+    flash('Successfully authenticated using GitHub!')
     return redirect(url_for('user_routes.profile'))
 
 @auth_routes.route('/logout')
 def logout():
-    session.pop('user_id', None)
     session.pop('github_user', None)
     session.pop('github_token', None)
     return redirect(url_for('auth_routes.login'))

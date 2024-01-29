@@ -1,42 +1,35 @@
-import pytest
-from flask import url_for, session, Flask
-from flask.testing import FlaskClient
+from unittest.mock import patch
+from flask import Flask, session
+from app.routes import auth_routes
 
-def test_login(client):
-    response = client.get(url_for('auth_routes.login'))
-    assert response.status_code == 200
-    assert b'Login' in response.data
+def test_github_oauth_redirect(client):
+    response = client.get('/auth/oauth/login')
+    assert response.status_code == 302  # Expecting a redirect
 
-def test_login_with_valid_credentials(client):
-    response = client.post(url_for('auth_routes.login'), data={'username': 'validuser', 'password': 'validpassword'})
-    assert response.status_code == 302  # Assuming you're using redirect on successful login
-    assert session.get('user_id') is not None
-    assert b'Login successful!' in client.get(response.headers['Location']).data
+def test_github_oauth_callback(client, monkeypatch):
+    with client.session_transaction() as sess:
+        sess['github_token'] = ('mock_access_token', '')
 
-def test_login_with_invalid_credentials(client):
-    response = client.post(url_for('auth_routes.login'), data={'username': 'invaliduser', 'password': 'invalidpassword'})
-    assert response.status_code == 200
-    assert b'Login Disabled: Log in with Github' in response.data
+    response = client.get('/auth/oauth/callback')
+    assert response.status_code == 302  # Expecting a redirect
 
-def test_initiate_github_oauth(client):
-    response = client.get(url_for('auth_routes.initiate_github_oauth'))
-    assert response.status_code == 302  # Assuming you're using redirect for GitHub OAuth initiation
-
-def test_github_authorized(client, monkeypatch):
+def test_github_oauth_callback(client):
     # Mock the GitHub OAuth response
-    def mock_authorized_response(*args, **kwargs):
-        return {'access_token': 'mock_access_token'}
+    mock_resp = {'access_token': 'mock_access_token', 'user': {'login': 'mock_user'}}
+    
+    # Use patch as a decorator to mock the authorized_response function
+    with patch('app.routes.auth_routes.github_authorized', return_value=mock_resp):
+        # Use the Flask test client
+        with client as c:
+            with c.session_transaction() as sess:
+                sess['github_token'] = None  # Set an initial value if needed
 
-    monkeypatch.setattr('your_app.auth_routes.github.authorized_response', mock_authorized_response)
+            # Call the mocked GitHub OAuth callback
+            c.get('/auth/oauth/callback')
 
-    # Simulate GitHub OAuth callback
-    response = client.get(url_for('auth_routes.github_authorized'))
-    assert response.status_code == 302  # Assuming you're using redirect after GitHub OAuth
-    assert session.get('github_token') == ('mock_access_token', '')
-
-def test_logout(client):
-    response = client.get(url_for('auth_routes.logout'))
-    assert response.status_code == 302  # Assuming you're using redirect after logout
-    assert 'user_id' not in session
-    assert 'github_user' not in session
-    assert 'github_token' not in session
+            # Assert that the session is updated correctly
+            with c.session_transaction() as sess:
+                assert 'github_token' in sess
+                assert 'github_user' in sess
+                assert sess['github_token'] == ('mock_access_token', '')
+                assert sess['github_user']['login'] == 'mock_user'

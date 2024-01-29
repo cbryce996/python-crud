@@ -17,14 +17,9 @@
 
         <hr class="h-px mb-6 bg-gray-200 border-0 dark:bg-gray-700">
         
+        <!-- Example Traditional Login Form -->
         <form class="relative" action="{{ url_for('auth_routes.login') }}" method="POST" novalidate>
             {{ form.csrf_token }}
-
-            {% if errors.form %}
-                <div class="absolute top-[-22px] left-0 w-full text-center">
-                    <span class="text-xs text-red-500 font-medium" role="alert">{{ errors.form }}</span>
-                </div>
-            {% endif %}
                 
             <div class="mb-6 flex flex-col relative">
                 <label for="username" class="block text-sm font-medium text-gray-300">Username</label>
