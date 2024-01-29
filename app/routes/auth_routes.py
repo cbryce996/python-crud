@@ -1,13 +1,8 @@
-from flask import Blueprint, redirect, url_for, session, flash, request, render_template
+from flask import Blueprint, redirect, url_for, session, flash, request, render_template, session
 from flask_oauthlib.client import OAuth
-from database.session import SessionLocal
-from models.repository import UserRepository
 from forms import LoginForm
 
 auth_routes = Blueprint('auth_routes', __name__)
-
-# Instantiate the UserRepository with the database session
-user_repository = UserRepository(SessionLocal)
 
 oauth = OAuth()
 
@@ -29,25 +24,18 @@ def login():
     form = LoginForm()
     errors = {'form': None, 'inputs': {'username': None, 'password': None}}
 
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
 
-        if len(username) < 4:
-            errors['inputs']['username'] = "Username must be at least 4 characters"
+        authenticated_user = False
 
-        if len(password) < 6:
-            errors['inputs']['password'] = "Password must be at least 6 characters"
-
-        if not errors['inputs']['username'] and not errors['inputs']['password']:
-            authenticated_user = False
-
-            # Placeholder alternative authentication
-            if authenticated_user:
-                session['user_id'] = 1
-                return redirect(url_for('user_routes.profile'))
-            else:
-                errors['form'] = "Incorrect Login"
+        # Placeholder alternative authentication
+        if authenticated_user:
+            session['user_id'] = 1
+            return redirect(url_for('user_routes.profile'))
+        else:
+            errors['form'] = "Login Disabled: Log in with Github"
 
     # For GET request or failed authentication, render the login form
     return render_template('login.html', errors=errors, form=form)
@@ -55,10 +43,6 @@ def login():
 @auth_routes.route('/oauth/login')
 def initiate_github_oauth():
     return github.authorize(callback=url_for('auth_routes.github_authorized', _external=True))
-
-from flask import redirect, url_for, session, flash
-
-from flask import redirect, url_for, session, flash
 
 @auth_routes.route('/oauth/callback')
 def github_authorized():

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center h-screen p-5">
+        <h1 class="text-2xl font-semibold mb-4 text-center">Edit Profile</h1>
+
+        <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
+
+        <form action="{{ url_for('user_routes.profile') }}" method="POST">
+            {{ form.csrf_token }}
+        
+            {% if form.errors %}
+                <div class="text-xs text-red-500 font-medium mb-4" role="alert">
+                    {{ form.errors.get('form')[0] }}
+                </div>
+            {% endif %}
+        
+            <!-- Name input -->
+            <div class="mb-6">
+                <label for="name" class="block text-sm font-medium text-gray-300">Name</label>
+                {{ form.name(class="mt-1 p-2 w-full border rounded-md bg-gray-700 text-white") }}
+                
+                {% if form.errors.name %}
+                    <div class="text-xs text-red-500 font-medium" role="alert">{{ form.errors.name[0] }}</div>
+                {% endif %}
+            </div>
+        
+            <!-- Location input -->
+            <div class="mb-6">
+                <label for="location" class="block text-sm font-medium text-gray-300">Location</label>
+                {{ form.location(class="mt-1 p-2 w-full border rounded-md bg-gray-700 text-white") }}
+                
+                {% if form.errors.location %}
+                    <div class="text-xs text-red-500 font-medium" role="alert">{{ form.errors.location[0] }}</div>
+                {% endif %}
+            </div>
+        
+            <!-- Bio input -->
+            <div class="mb-6">
+                <label for="bio" class="block text-sm font-medium text-gray-300">Bio</label>
+                {{ form.bio(class="mt-1 p-2 w-full border rounded-md bg-gray-700 text-white") }}
+                
+                {% if form.errors.bio %}
+                    <div class="text-xs text-red-500 font-medium" role="alert">{{ form.errors.bio[0] }}</div>
+                {% endif %}
+            </div>
+        
+            <!-- Email input -->
+            <div class="mb-6">
+                <label for="email" class="block text-sm font-medium text-gray-300">Email</label>
+                {{ form.email(class="mt-1 p-2 w-full border rounded-md bg-gray-700 text-white") }}
+                
+                {% if form.errors.email %}
+                    <div class="text-xs text-red-500 font-medium" role="alert">{{ form.errors.email[0] }}</div>
+                {% endif %}
+            </div>
+        
+            <!-- Add other fields as needed -->
+        
+            <!-- Submit button -->
+            <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-500 w-full">Save Changes</button>
+        </form>        
+
+        <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
+
+        <!-- Cancel button -->
+        <div class="flex items-center justify-center">
+            <a href="{{ url_for('user_routes.profile') }}" class="flex items-center justify-center bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-500">
+                Cancel
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

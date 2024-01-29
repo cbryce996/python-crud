@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Your Title{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
+</head>
+<body class="bg-gray-900 text-white flex flex-col h-screen p-5">
+    <!-- Alert Box -->
+    <div class="fixed top-0 left-0 right-0 mx-auto text-center">
+        <!-- Map Tailwind Classes for Dark Theme -->
+        {% macro get_tailwind_alert_class(category) %}
+            {% if category == 'error' %}
+                bg-red-600 text-white
+            {% elif category == 'success' %}
+                bg-green-600 text-white
+            {% elif category == 'warning' %}
+                bg-yellow-600 text-white
+            {% else %}
+                bg-blue-600 text-white
+            {% endif %}
+        {% endmacro %}
+        <div id="flash-message" class="m-4 inline-block">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="{{ get_tailwind_alert_class(category) }} rounded-md shadow-md py-2 px-4 mb-4 rounded-md">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="flex items-center justify-center flex-grow">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+
+
+<!-- Simple Alert Timer -->
+<script>
+    // Function to show the flash message and hide it after a delay
+    function showFlashMessage() {
+      const flashMessage = document.getElementById('flash-message');
+      flashMessage.classList.remove('invisible');
+  
+      // Set a timeout to hide the flash message after 3000 milliseconds (adjust as needed)
+      setTimeout(() => {
+        flashMessage.classList.add('invisible');
+      }, 3000);
+    }
+  
+    // Call the function when the page loads
+    document.addEventListener('DOMContentLoaded', showFlashMessage);
+  </script>
+  
+</html>

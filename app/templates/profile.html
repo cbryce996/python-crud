@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
-</head>
-<body class="bg-gray-900 text-white flex items-center justify-center h-screen p-5">
+{% extends 'base.html' %}
 
+{% block title %}Profile{% endblock %}
+
+{% block content %}
     <div class="bg-gray-800 p-6 rounded-md shadow-md w-full sm:w-5/6 max-w-4xl">
 
         <div class="flex-row center lg:flex">
@@ -36,7 +31,7 @@
                 <hr class="h-px mb-4 mt-2 bg-gray-200 border-0 dark:bg-gray-700 hidden lg:block">
 
                 <!-- Realistic repository placeholders in vertical flex format -->
-                <div class="space-y-4 overflow-y-auto max-h-[400px]">
+                <div class="space-y-4 overflow-y-auto max-h-[300px]">
                     {% for repo in user_data.get('repositories', []) %}
                         <a href="https://github.com/{{ user_data.login }}/{{ repo.name }}" target="_blank" class="block">
                             <button class="bg-gray-700 hover:bg-gray-600 p-4 rounded-md w-full text-left">
@@ -65,6 +60,4 @@
             </a>
         </div>
     </div>
-
-</body>
-</html>
+{% endblock %}
