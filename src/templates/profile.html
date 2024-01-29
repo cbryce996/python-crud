@@ -15,15 +15,16 @@
             <div class="lg:w-1/2 lg:pr-8">
 
                 <!-- User profile picture (placeholder) -->
-                <img src="https://via.placeholder.com/80" alt="User Avatar" class="w-40 h-40 rounded-full mb-4 mx-auto">
+                <img src="{{ user_data.avatar_url }}" alt="User Avatar" class="w-40 h-40 rounded-full mb-4 mx-auto">
 
                 <!-- User information -->
                 <div>
-                    <h2 class="text-2xl font-semibold mb-2 text-center">John Doe</h2>
+                    <h2 class="text-2xl font-semibold mb-2 text-center">{{ user_data.name or 'John Doe' }}</h2>
                     <hr class="h-px mb-4 bg-gray-200 border-0 dark:bg-gray-700">
-                    <p class="text-gray-300 mb-1 text-center">Location: City, Country</p>
-                    <p class="text-gray-300 mb-1 text-center">Bio: Software Developer</p>
-                    <p class="text-gray-300 mb-1 text-center">Email: john.doe@example.com</p>
+                    <p class="text-gray-300 mb-1 text-center">Username: {{ user_data.login or 'Unknown' }}</p>
+                    <p class="text-gray-300 mb-1 text-center">Location: {{ user_data.location or 'Unknown' }}</p>
+                    <p class="text-gray-300 mb-1 text-center">Bio: {{ user_data.bio or 'No bio available' }}</p>
+                    <p class="text-gray-300 mb-1 text-center">Email: {{ user_data.email or 'No email available' }}</p>
                 </div>
             </div>
 
@@ -35,28 +36,28 @@
                 <hr class="h-px mb-4 mt-2 bg-gray-200 border-0 dark:bg-gray-700 hidden lg:block">
 
                 <!-- Realistic repository placeholders in vertical flex format -->
-                <div class="space-y-4">
-                    <button class="bg-gray-700 hover:bg-gray-600 p-4 rounded-md w-full text-left">
-                        <h4 class="text-xl font-semibold mb-2"><a href="https://github.com/johndoe/repo1" target="_blank">johndoe/repo1</a></h4>
-                        <p class="text-gray-300">A sample repository description goes here.</p>
-                    </button>
-                    <button class="bg-gray-700 hover:bg-gray-600 p-4 rounded-md w-full text-left">
-                        <h4 class="text-xl font-semibold mb-2"><a href="https://github.com/johndoe/repo2" target="_blank">johndoe/repo2</a></h4>
-                        <p class="text-gray-300">Another repository with a brief description.</p>
-                    </button>
-                    <button class="bg-gray-700 hover:bg-gray-600 p-4 rounded-md w-full text-left">
-                        <h4 class="text-xl font-semibold mb-2"><a href="https://github.com/johndoe/repo3" target="_blank">johndoe/repo3</a></h4>
-                        <p class="text-gray-300">Yet another repository description.</p>
-                    </button>
-                </div>
+                <div class="space-y-4 overflow-y-auto max-h-[400px]">
+                    {% for repo in user_data.get('repositories', []) %}
+                        <a href="https://github.com/{{ user_data.login }}/{{ repo.name }}" target="_blank" class="block">
+                            <button class="bg-gray-700 hover:bg-gray-600 p-4 rounded-md w-full text-left">
+                                <h4 class="text-xl font-semibold mb-2">
+                                    {{ repo.name or 'Unnamed Repository' }}
+                                </h4>
+                                <p class="text-gray-300 description-ellipsis">
+                                    {{ repo.description or 'No description available.' }}
+                                </p>
+                            </button>
+                        </a>
+                    {% endfor %}
+                </div>                                                        
             </div>
         </div>
 
         <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
 
         <!-- Edit profile button -->
-        <div class="flex items-center justify-center">
-            <a href="{{ url_for('user_routes.edit') }}" class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-500 mr-1">
+        <div class="flex items-center justify-center space-x-2">
+            <a href="{{ url_for('user_routes.edit') }}" class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-500">
                 Edit
             </a>
             <a href="{{ url_for('auth_routes.login') }}" class="bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-500">

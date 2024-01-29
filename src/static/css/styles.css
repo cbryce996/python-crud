@@ -8,3 +8,11 @@ input:focus {
     border: 1px solid #3498db; /* Change color as needed */
     outline: none; /* Remove the default focus outline */
 }
+
+.description-ellipsis {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Show only 2 lines */
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}

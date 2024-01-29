@@ -9,19 +9,19 @@
 <body class="bg-gray-900 text-white flex items-center justify-center h-screen">
 
     <div class="bg-gray-800 p-8 rounded-md shadow-md w-96">
-        <h1 class="text-2xl font-semibold mb-4 text-center">Login</h1>
+        <h1 class="text-3xl font-semibold mb-6 text-center">Welcome!</h1>
 
         <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
         
-        <div class="mb-4 flex items-center justify-center">
-            <a href="{{ url_for('user_routes.profile') }}" class="flex items-center text-sm justify-center bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-500">
-                <img src="{{ url_for('static', filename='img/github.svg') }}" alt="GitHub Logo" class="w-6 h-full inline-block mr-2">
-                Login with GitHub
-            </a>
-        </div>
+        <a href="{{ url_for('auth_routes.initiate_github_oauth') }}" class="flex items-center justify-center bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-500">
+            <img src="{{ url_for('static', filename='img/github.svg') }}" alt="GitHub Logo" class="w-6 h-full inline-block mr-2">
+            Login with GitHub
+        </a>
 
-        <hr class="h-px mt-4 mb-6 bg-gray-200 border-0 dark:bg-gray-700">
+        <p class="text-center text-sm text-gray-400 my-4">or</p>
 
+        <hr class="h-px mb-6 bg-gray-200 border-0 dark:bg-gray-700">
+        
         <form class="relative" action="{{ url_for('auth_routes.login') }}" method="POST" novalidate>
             {{ form.csrf_token }}
 
@@ -31,7 +31,6 @@
                 </div>
             {% endif %}
             
-            <!-- Username input -->
             <div class="mb-6 flex flex-col relative">
                 <label for="password" class="block text-sm font-medium text-gray-300">Username</label>
                 {{ form.username(class="mt-1 p-2 w-full border rounded-md bg-gray-700 text-white") }}
@@ -43,7 +42,6 @@
                 {% endif %}
             </div>
 
-            <!-- Password input -->
             <div class="mb-6 flex flex-col relative">
                 <label for="password" class="block text-sm font-medium text-gray-300">Password</label>
                 {{ form.password(class="mt-1 p-2 w-full border rounded-md bg-gray-700 text-white") }}
@@ -54,10 +52,9 @@
                     </div>
                 {% endif %}
             </div>
-        
-            <!-- Submit button -->
+            
             <button type="submit" class="bg-blue-600 text-white mt-2 py-2 px-4 rounded-md hover:bg-blue-500 w-full">Login</button>
-        </form>        
+        </form>
         
     </div>
 
