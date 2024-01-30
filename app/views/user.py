@@ -1,46 +1,46 @@
 from flask import Blueprint, render_template, session, redirect, url_for, request, flash
-from app.forms import EditProfileForm
+from app.forms.edit import EditForm
 import requests
 
-user_routes = Blueprint('user_routes', __name__)
+# Create a Blueprint for user views
+user_views = Blueprint('user_views', __name__)
 
-@user_routes.route('/profile', methods=['GET'])
+@user_views.route('/profile', methods=['GET'])
 def profile():
-    # Get required information
+    """
+    Renders the user profile page.
+
+    Displays user data retrieved from the GitHub session and provides an edit link.
+    """
     github_user_data = session.get('github_user')
     github_access_token = session.get('github_token')
-    
-    # Check if required information is present
+
     if not github_user_data or not github_access_token:
         flash('You must log in to access this page.', 'error')
-        return redirect(url_for('auth_routes.login'))
-    
-    # Populate form with session data
-    form = EditProfileForm(request.form, **github_user_data)
+        return redirect(url_for('auth_views.login'))
 
-    # Render the profile page
+    form = EditForm(request.form, **github_user_data)
+
     return render_template('profile.html', user_data=github_user_data, form=form)
 
-@user_routes.route('/edit', methods=['GET', 'POST'])
+@user_views.route('/edit', methods=['GET', 'POST'])
 def edit():
-    # Get required information
+    """
+    Renders the user edit page and handles user data updates.
+
+    Retrieves user data from the GitHub session, validates the form,
+    and updates the user data on form submission.
+    """
     github_user_data = session.get('github_user')
     github_access_token = session.get('github_token')
 
-    # Check if required information is present
     if not github_user_data or not github_access_token:
         flash('You must log in to access this page!', 'error')
-        return redirect(url_for('auth_routes.login'))
+        return redirect(url_for('auth_views.login'))
 
-    # Populate form with session data
-    form = EditProfileForm(**github_user_data)
+    form = EditForm(**github_user_data)
 
-    print(github_access_token)
-
-    # Validate the form
     if form.validate_on_submit():
-
-        # Handle POST method
         if request.method == 'POST':
             new_data = {
                 'name': form.name.data,
@@ -51,11 +51,9 @@ def edit():
             update_response = update_github_user(github_access_token[0], new_data)
 
             if update_response:
-                # Update session with the latest user data
                 updated_user_data = requests.get('https://api.github.com/user', headers={'Authorization': f'Bearer {github_access_token[0]}'})
                 updated_user_data = updated_user_data.json()
 
-                # Update the session with the same format as auth data
                 session['github_user'] = {
                     'avatar_url': updated_user_data.get('avatar_url'),
                     'login': updated_user_data.get('login'),
@@ -66,13 +64,20 @@ def edit():
                 }
 
                 flash('User information updated successfully!', 'success')
-                return redirect(url_for('user_routes.profile'))
+                return redirect(url_for('user_views.profile'))
             else:
                 flash('Error updating user information. Please try again!', 'error')
 
     return render_template('edit.html', form=form)
 
 def update_github_user(access_token, new_data):
+    """
+    Updates the user data on GitHub.
+
+    Sends a PATCH request to the GitHub API with the provided access token and new data.
+
+    Returns True on successful update, False otherwise.
+    """
     url = 'https://api.github.com/user'
 
     headers = {

@@ -2,7 +2,7 @@
     "name": "your_project_name",
     "version": "1.0.0",
     "scripts": {
-        "build": "tailwindcss build -i src/static/css/styles.css -o src/static/css/output.css"
+        "build": "tailwindcss build -i app/static/css/styles.css -o app/static/css/output.css"
     },
     "devDependencies": {
         "tailwindcss": "^3.0.0"

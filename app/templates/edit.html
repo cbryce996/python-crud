@@ -9,7 +9,7 @@
 
         <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
 
-        <form action="{{ url_for('user_routes.edit') }}" method="POST" novalidate>
+        <form action="{{ url_for('user_views.edit') }}" method="POST" novalidate>
             {{ form.csrf_token }}
         
             {% if form.errors %}
@@ -56,7 +56,7 @@
 
         <!-- Cancel button -->
         <div class="flex items-center justify-center">
-            <a href="{{ url_for('user_routes.profile') }}" class="flex items-center justify-center bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-500">
+            <a href="{{ url_for('user_views.profile') }}" class="flex items-center justify-center bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-500">
                 Cancel
             </a>
         </div>

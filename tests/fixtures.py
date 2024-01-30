@@ -43,3 +43,32 @@ mock_repo_data = [{
     'created_at': '2022-01-01T12:00:00Z',
     'updated_at': '2022-01-10T12:00:00Z',
 }]
+
+mock_processed_user_data = {
+    'avatar_url': 'https://dummyavatars.com/example.jpg',
+    'html_url': 'https://github.com/exampleuser',
+    'login': 'exampleuser',
+    'name': 'John Doe',
+    'location': 'Dummy City, Dummy Country',
+    'bio': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis tristique elit.',
+    'repositories': [
+        {
+            'name': 'dummy-repo-1',
+            'full_name': 'exampleuser/dummy-repo-1',
+            'url': 'https://api.github.com/repos/exampleuser/dummy-repo-1',
+            'description': 'Dummy repository 1 for testing purposes.'
+        },
+        {
+            'name': 'dummy-repo-2',
+            'full_name': 'exampleuser/dummy-repo-2',
+            'url': 'https://api.github.com/repos/exampleuser/dummy-repo-2',
+            'description': 'Dummy repository 2 for testing purposes.'
+        },
+        {
+            'name': 'dummy-repo-3',
+            'full_name': 'exampleuser/dummy-repo-3',
+            'url': 'https://api.github.com/repos/exampleuser/dummy-repo-3',
+            'description': 'Dummy repository 3 for testing purposes.'
+        }
+    ]
+}

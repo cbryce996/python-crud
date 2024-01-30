@@ -41,21 +41,18 @@
 </body>
 
 
-<!-- Simple Alert Timer -->
+<!-- Simple Alert Timeout -->
 <script>
-    // Function to show the flash message and hide it after a delay
     function showFlashMessage() {
       const flashMessage = document.getElementById('flash-message');
       flashMessage.classList.remove('invisible');
   
-      // Set a timeout to hide the flash message after 3000 milliseconds (adjust as needed)
       setTimeout(() => {
         flashMessage.classList.add('invisible');
       }, 3000);
     }
   
-    // Call the function when the page loads
     document.addEventListener('DOMContentLoaded', showFlashMessage);
-  </script>
+</script>
   
 </html>
