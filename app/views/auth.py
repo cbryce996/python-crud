@@ -95,8 +95,6 @@ def github_authorized():
         'repositories': formatted_repositories
     }
 
-    print(dict(session['github_user']))
-
     flash('Successfully authenticated using GitHub!')
     return redirect(url_for('user_views.profile'))
 
